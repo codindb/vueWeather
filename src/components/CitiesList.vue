@@ -5,22 +5,23 @@
   </div>
 </template>
 
-<script>
-  import City from "./City";
+<script lang="ts">
   import axios from "axios";
+  import { defineComponent } from "vue";
+  import City from "./City.vue";
 
-  export default {
+  export default defineComponent ({
     name: 'CitiesList',
     components: {
       City
     },
     data() {
       return {
-        cities: []
+        cities: [{}]
       }
     },
     methods: {
-      loadCities(citiesData) {
+      loadCities(citiesData: any) {
         this.cities = [];
         for (const {name, weather: [{description: weather}], main: {temp: temperature}, dt: updatedAt} of citiesData) {
           this.cities.push({name, weather, temperature, updatedAt: new Date(updatedAt * 1000)});
@@ -31,7 +32,7 @@
       axios.get(`https://api.openweathermap.org/data/2.5/find?lat=${process.env.VUE_APP_DEFAULT_LATITUDE}&lon=${process.env.VUE_APP_DEFAULT_LONGITUDE}&cnt=20&cluster=yes&lang=fr&units=metric&APPID=${process.env.VUE_APP_OW_APP_ID}`)
         .then((resp) => this.loadCities(resp.data.list));
     }
-  }
+  })
 </script>
 
 <style scoped>

@@ -5,13 +5,13 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
   import axios from "axios";
   import mapboxgl from "mapbox-gl";
   import "mapbox-gl/dist/mapbox-gl.css";
-  import { onMounted } from "vue";
+  import { defineComponent, onMounted } from "vue";
 
-  export default {
+  export default defineComponent ({
     name: 'CitiesMap',
     setup() {
       onMounted(() => {
@@ -23,13 +23,13 @@
           zoom: 12, // starting zoom
         });
         map.on('load', () => {
-          let cities = [];
+          let cities: any = [];
           axios.get(`https://api.openweathermap.org/data/2.5/find?lat=${process.env.VUE_APP_DEFAULT_LATITUDE}&lon=${process.env.VUE_APP_DEFAULT_LONGITUDE}&cnt=20&cluster=yes&lang=fr&units=metric&APPID=${process.env.VUE_APP_OW_APP_ID}`)
             .then(function (resp) {
               for (const {name, coord: {lat, lon}, weather: [{description: weather, icon: icon}], main: {temp: temperature}, dt: updatedAt} of resp.data.list) {
                 cities.push({name, lat, lon, weather, icon, temperature, updatedAt: new Date(updatedAt * 1000)});
               }
-              cities.forEach(function(city) {
+              cities.forEach(function(city: { icon: any; name: any; temperature: any; lon: any; lat: any; }) {
                 let el = document.createElement('img');
                 el.src = `https://openweathermap.org/img/wn/${city.icon}@2x.png`;
                 el.classList.add('marker');
@@ -43,7 +43,7 @@
       });
       return {};
     },
-  }
+  })
 </script>
 
 <style scoped>

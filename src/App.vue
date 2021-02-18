@@ -11,11 +11,13 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
+import { defineComponent } from 'vue';
+// import { Vue } from 'vue-class-component';
 
-export default {
-  name: 'App'
-}
+export default defineComponent({
+  name: 'App',
+});
 </script>
 
 <style>

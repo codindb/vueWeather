@@ -1,8 +1,8 @@
 import { createWebHistory, createRouter } from "vue-router";
-import CitiesList from "../components/CitiesList";
-import CitiesMap from "../components/CitiesMap";
-import City from "../components/City";
-import EasterEgg from "../components/EasterEgg";
+import CitiesList from "@/components/CitiesList.vue";
+import CitiesMap from "@/components/CitiesMap.vue";
+import City from "@/components/City.vue";
+import EasterEgg from "@/components/EasterEgg.vue";
 
 const routes = [
   { path: '/villes', component: CitiesList },
