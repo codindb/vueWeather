@@ -6,6 +6,7 @@ declare module '@vue/runtime-core' {
   interface State {
     count: number,
     weather: Array<Object>,
+    countDown: number,
   }
 
   // provide typings for `this.$store`
