@@ -18,7 +18,7 @@
       name: String,
       weather: String,
       temperature: Number,
-      updatedAt: Date,
+      updatedAt: [String, Date],
     },
     methods: {
         currentDateTime() {
@@ -26,11 +26,6 @@
             return moment(this.updatedAt).fromNow();
             }
         },
-        // setup() {
-        //     const store = useStore();
-        //     store.commit('loadWeather');
-        //     return {toto: store.state.weather}; 
-        // }
   });
 </script>
 

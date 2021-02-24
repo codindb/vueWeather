@@ -4,7 +4,6 @@ import { createStore, Store, useStore as baseUseStore, } from 'vuex';
 
 /// define your typings for the store state
 export interface State {
-    count: number,
     weather: Array<Object>,
     countDown: number,
   }
@@ -14,16 +13,19 @@ export interface State {
   
   export const store = createStore<State>({
     state: {
-      count: 0,
       weather: [],
-      countDown: 300,
+      countDown: 120,
     },
     mutations: {
-        increment (state) {
-          state.count++
+        initialiseStore(state){
+            if(localStorage.getItem('store')){
+                this.replaceState(
+					Object.assign(state, JSON.parse(localStorage.getItem('store') || '{}'))
+				);
+            }
         },
         loadWeather (state, payload) {
-            for (const {name, coord: {lat, lon}, weather: [{description: weather, icon: icon}], main: {temp: temperature}, dt: updatedAt} of payload.data.list) {
+            for (const {name, coord: {lat, lon}, weather: [{description: weather, icon: icon}], main: {temp: temperature}, dt: updatedAt} of payload) {
                 state.weather.push({name, lat, lon, weather, icon, temperature, updatedAt: new Date(updatedAt * 1000)});
               }
         },
@@ -34,33 +36,36 @@ export interface State {
             state.countDown--;
         },
         resetCountDown (state) {
-            state.countDown = 300;
+            state.countDown = 120;
         }
     },
     actions: {
-        loadWeatherAsync ({commit}) {
-            axios.get(`https://api.openweathermap.org/data/2.5/find?lat=${process.env.VUE_APP_DEFAULT_LATITUDE}&lon=${process.env.VUE_APP_DEFAULT_LONGITUDE}&cnt=20&cluster=yes&lang=fr&units=metric&APPID=${process.env.VUE_APP_OW_APP_ID}`)
-            .then( (resp) => {
-              commit('loadWeather', resp);
-            })
-        },
-        countDownAsync({commit}) {
-            setInterval(countDown, 1000);
-            function countDown(){
-                commit('countDown');
+        loadWeatherAsync ({commit, state}) {
+            if(state.weather.length < 1 || state.countDown < 1 ) {
+                axios.get(`https://api.openweathermap.org/data/2.5/find?lat=${process.env.VUE_APP_DEFAULT_LATITUDE}&lon=${process.env.VUE_APP_DEFAULT_LONGITUDE}&cnt=20&cluster=yes&lang=fr&units=metric&APPID=${process.env.VUE_APP_OW_APP_ID}`)
+                    .then( (resp) => {
+                        commit('loadWeather', resp.data.list);
+                        console.log("Data loaded from OWM API!");
+                        })
+            } else {
+                console.log(`data will be reloaded in ${state.countDown} s`);
             }
+        },
+        countDownAsync({commit, dispatch, state}) {
+            setInterval(() => {
+                commit('countDown');
+                if(state.countDown < 1){
+                    dispatch('refreshDataAsync')
+                }
+            }, 1000);
         },
         refreshDataAsync({commit, dispatch}) {
-            setInterval(refreshDataEvery5Minutes, 5000);
-            function refreshDataEvery5Minutes(){
-                commit('unloadData');
-                dispatch('loadWeatherAsync').then(()=>{
+            commit('unloadData')
+            dispatch('loadWeatherAsync')
+                .then(() => {
                     commit('resetCountDown');
                 });
-            }
-
         }
-        
     }
   })
 

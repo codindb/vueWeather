@@ -12,7 +12,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, onMounted } from 'vue';
 import { useStore } from './store';
 // import { Vue } from 'vue-class-component';
 
@@ -20,9 +20,15 @@ export default defineComponent({
   name: 'App',
   setup(){
     const store = useStore();
-    store.dispatch('loadWeatherAsync');
-    store.dispatch('countDownAsync');
-    store.dispatch('refreshDataAsync');
+    store.commit('initialiseStore');
+    onMounted(() => {
+        store.subscribe((mutation, state) => {
+            localStorage.setItem('store', JSON.stringify(state));
+        });
+        store.dispatch('loadWeatherAsync');
+        store.dispatch('countDownAsync');
+    })
+    
   },
 });
 </script>

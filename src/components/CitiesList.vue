@@ -7,7 +7,6 @@
 </template>
 
 <script lang="ts">
-  // import axios from "axios";
     import { defineComponent } from "vue";
     import City from "./City.vue";
     import { useStore } from '../store';
