@@ -5,16 +5,21 @@ import { createStore, Store, useStore as baseUseStore, } from 'vuex';
 /// define your typings for the store state
 export interface State {
     weather: Array<Object>,
+    selectedCities: Array<Object>,
     countDown: number,
+    temperature: number,
   }
   
   // define injection key
   export const key: InjectionKey<Store<State>> = Symbol()
   
   export const store = createStore<State>({
+    strict: true,
     state: {
       weather: [],
-      countDown: 120,
+      countDown: 30,
+      temperature: 0,
+      selectedCities: []
     },
     mutations: {
         initialiseStore(state){
@@ -36,9 +41,18 @@ export interface State {
             state.countDown--;
         },
         resetCountDown (state) {
-            state.countDown = 120;
+            state.countDown = 30;
+        },
+        clearSelectedCities (state) {
+            state.selectedCities.length = 0;
+        },
+        updateTemperature (state, temperature) {
+            state.temperature = temperature;
+        },
+        loadCity (state, payload) {
+            state.selectedCities.push(payload.data)
         }
-    },
+     },
     actions: {
         loadWeatherAsync ({commit, state}) {
             if(state.weather.length < 1 || state.countDown < 1 ) {
@@ -65,7 +79,13 @@ export interface State {
                 .then(() => {
                     commit('resetCountDown');
                 });
-        }
+        },
+        loadCityAsync ({commit}, payload) {
+            axios.get(`https://api.openweathermap.org/data/2.5/weather?q=${payload}&appid=${process.env.VUE_APP_OW_APP_ID}`)
+            .then( (resp) => {
+                commit('loadCity', resp)
+            })
+        },
     }
   })
 

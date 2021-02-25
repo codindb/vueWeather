@@ -14,7 +14,6 @@
 <script lang="ts">
 import { defineComponent, onMounted } from 'vue';
 import { useStore } from './store';
-// import { Vue } from 'vue-class-component';
 
 export default defineComponent({
   name: 'App',
@@ -28,7 +27,6 @@ export default defineComponent({
         store.dispatch('loadWeatherAsync');
         store.dispatch('countDownAsync');
     })
-    
   },
 });
 </script>

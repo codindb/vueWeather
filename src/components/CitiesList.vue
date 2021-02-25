@@ -1,25 +1,31 @@
 <template>
+    <div class="form">
+        <CitiesForm> </CitiesForm>
+        <CitySelectionForm> </CitySelectionForm>
+    </div>
     <h4>next update in {{formatedCountDownInMinutesSeconds}}</h4>
     <div>
-        <h1>Liste des villes</h1>
-        <City v-for="city of loadedData" :key="city.id" :name="city.name" :weather="city.weather" :temperature="city.temperature" :updated-at="city.updatedAt"></City>
+        <h1>Liste des villes ({{selectedCities.length}})</h1>
+        <City v-for="city of selectedCities" :key="city.id" :name="city.name" :weather="city.weather[0].description" :temperature="parseInt((city.main.temp - 273.15),10)" :updated-at="city.dt*1000"></City>
+        <!-- <h1>Liste des villes ({{loadedData.length}})</h1>
+        <City v-for="city of loadedData" :key="city.id" :name="city.name" :weather="city.weather" :temperature="city.temperature" :updated-at="city.updatedAt"></City> -->
     </div>
+    
 </template>
 
 <script lang="ts">
     import { defineComponent } from "vue";
     import City from "./City.vue";
+    import CitiesForm from "./CitiesForm.vue";
+    import CitySelectionForm from "./CitySelectionForm.vue";
     import { useStore } from '../store';
-    //import { mapState } from "vuex";
 
   export default defineComponent ({
     name: 'CitiesList',
     components: {
-      City
-    },
-    setup() {
-        const store = useStore();
-        return {loadedData: store.state.weather}; 
+      City,
+      CitiesForm,
+      CitySelectionForm,
     },
     computed: {
         formatedCountDownInMinutesSeconds(){
@@ -30,8 +36,31 @@
                     return `${store.state.countDown} s`;
                 }
         },
-        //...mapState(['loadWeather']),
-    } 
+        loadedData(){
+            const store = useStore();
+            const cities = store.state.weather;
+            const filteredCities: Array<Object> = [];
+            cities.forEach(city => {
+                let parsedCity = JSON.parse(JSON.stringify(city));
+                if (parsedCity.temperature > store.state.temperature){
+                    filteredCities.push(parsedCity)
+                } 
+            });        
+            return filteredCities;
+        },
+        selectedCities() {
+            const store = useStore();
+            const cities = store.state.selectedCities;
+            const filteredCities: Array<Object> = [];
+            cities.forEach(city => {
+                let parsedCity = JSON.parse(JSON.stringify(city));
+                if ((parsedCity.main.temp - 273.15) > store.state.temperature){
+                    filteredCities.push(parsedCity)
+                }
+            });
+            return filteredCities;
+        }
+    }
   })
 </script>
 
@@ -42,5 +71,8 @@
   h4 {
     position: absolute;
     margin: 50px; 
+  }
+  input {
+      margin-top: 30px;
   }
 </style>
