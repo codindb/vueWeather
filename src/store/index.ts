@@ -51,6 +51,9 @@ export interface State {
         },
         loadCity (state, payload) {
             state.selectedCities.push(payload.data)
+        },
+        deleteCity (state, payload) {
+            state.selectedCities.splice(payload, 1);
         }
      },
     actions: {
