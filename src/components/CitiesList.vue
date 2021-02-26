@@ -5,8 +5,8 @@
     </div>
     <h4>next update in {{formatedCountDownInMinutesSeconds}}</h4>
     <div class="list">
-        <h1>Liste des villes ({{selectedCities.length}})</h1>
-        <City v-for="city of selectedCities" :key="city.id" :name="city.name" :weather="city.weather[0].description" :temperature="parseInt((city.main.temp - 273.15),10)" :updated-at="city.dt*1000"></City>
+        <h1>Cities List ({{selectedCities.length}})</h1>
+        <City v-for="city of selectedCities" :key="city.id" :name="city.name" :weather="city.weather[0].description" :temperature="parseInt((city.main.temp - 273.15),10)" :updated-at="city.dt*1000" :icon="city.weather[0].icon"></City>
         <!-- <h1>Liste des villes ({{loadedData.length}})</h1>
         <City v-for="city of loadedData" :key="city.id" :name="city.name" :weather="city.weather" :temperature="city.temperature" :updated-at="city.updatedAt"></City> -->
     </div>

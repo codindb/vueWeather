@@ -3,8 +3,8 @@
     <header id="app_header">
       <img src="./assets/logo-cn.png" alt="Logo Campus Numérique">
       <div>
-        <router-link to="/villes">Liste</router-link>
-        <router-link to="/carte">Carte</router-link>
+        <router-link to="/villes">List</router-link>
+        <router-link to="/carte">Map</router-link>
       </div>
     </header>
     <router-view></router-view>

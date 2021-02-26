@@ -1,7 +1,7 @@
 <template>
   <div id="v-model-select" class="demo">
     <h4>Type in a city name to add</h4>
-    <input v-model.lazy="cityName" placeholder="Type in city name">
+    <input v-model.lazy="cityName" placeholder="City name">
   </div>
 </template>
 

@@ -1,12 +1,10 @@
 <template>
-  <div>
-      <div class="namePlusButton">
-        <h2>{{name}}</h2>
-        <button @click='handleClick'>Delete</button>
-      </div>
-    
-    <p>Temps : {{weather}} - Température : {{temperature}}°C</p>
-    <p><em>Dernière mise à jour : {{currentDateTime()}}</em></p>
+  <div class="cityComponent">
+    <h2>{{name}}</h2>
+    <img v-bind:src="`https://openweathermap.org/img/wn/${icon}.png`" alt="weather icon" width="70" height="70">
+    <p>Weather : {{weather}} - Temperature : {{temperature}}°C</p>
+    <p><em>last update : {{currentDateTime()}}</em></p>
+    <button @click='handleClick'>Delete</button>
     
   </div>
 </template>
@@ -19,6 +17,7 @@
   export default defineComponent ({
     name: 'City',
     props: {
+        icon: String,
       name: String,
       weather: String,
       temperature: Number,
@@ -40,7 +39,7 @@
     },
     methods: {
         currentDateTime() {
-            moment.locale("fr");
+            //moment.locale("fr");
             return moment(this.updatedAt).fromNow();
         },
     },
@@ -48,15 +47,24 @@
 </script>
 
 <style scoped lang="scss">
-  h1 {
-    margin: 40px 0 0;
+  h2 {
+    padding: 20px 0 0;
+    color: white;
   }
-  .namePlusButton {
-      display: inline-flex;
+  .cityComponent {
+      width: 40%;
+      margin: 0 auto;
+      background-color: $blue;
+      border-radius: 30px;
   }
   button {
-      height: 30px;
-      margin-top: 20px;
-      margin-left: 20px;
+      margin-bottom: 20px;
+  }
+  p {
+      color: white;
+  }
+  img {
+      margin-top: -30px;
+      margin-bottom: -20px;
   }
 </style>
