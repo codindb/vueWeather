@@ -8,6 +8,7 @@ export interface State {
     selectedCities: Array<Object>,
     countDown: number,
     temperature: number,
+    selectedCitiesNames:Array<String>,
   }
   
   // define injection key
@@ -19,7 +20,8 @@ export interface State {
       weather: [],
       countDown: 30,
       temperature: 0,
-      selectedCities: []
+      selectedCities: [],
+      selectedCitiesNames: []
     },
     mutations: {
         initialiseStore(state){
@@ -35,7 +37,7 @@ export interface State {
               }
         },
         unloadData (state) {
-            state.weather.length = 0;
+            state.selectedCities.length = 0;
         },
         countDown (state) {
             state.countDown--;
@@ -50,10 +52,14 @@ export interface State {
             state.temperature = temperature;
         },
         loadCity (state, payload) {
-            state.selectedCities.push(payload.data)
+            state.selectedCities.push(payload.data);
+        },
+        loadCityName (state, payload) {
+            state.selectedCitiesNames.push(payload);
         },
         deleteCity (state, payload) {
             state.selectedCities.splice(payload, 1);
+            state.selectedCitiesNames.splice(payload, 1);
         }
      },
     actions: {
@@ -68,6 +74,16 @@ export interface State {
                 console.log(`data will be reloaded in ${state.countDown} s`);
             }
         },
+        reloadSelectedCities({dispatch, state}) {
+            if(state.selectedCities.length < 1 || state.countDown < 1 ) {
+                state.selectedCitiesNames.forEach(cityName => {
+                    dispatch('loadCityAsync', cityName)
+                });
+                console.log("Data loaded from OWM API!");
+            } else {
+                console.log(`data will be reloaded in ${state.countDown} s`);
+            }
+        },
         countDownAsync({commit, dispatch, state}) {
             setInterval(() => {
                 commit('countDown');
@@ -78,7 +94,7 @@ export interface State {
         },
         refreshDataAsync({commit, dispatch}) {
             commit('unloadData')
-            dispatch('loadWeatherAsync')
+            dispatch('reloadSelectedCities')
                 .then(() => {
                     commit('resetCountDown');
                 });

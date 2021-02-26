@@ -1,7 +1,7 @@
 <template>
   <div>
     <br/>
-    <p>{{quote}}</p>
+    <p class="blue">{{quote}}</p>
     <button @click="refreshQuote()">Nouvelle citation</button>
     <div v-if="loading" style="color: orange;">Chargement en cours...</div>
     <div v-if="success" style="color: green;">Le chargement est terminé.</div>
@@ -38,3 +38,10 @@
         }
     })
 </script>
+
+<style scoped lang="scss">
+    p {
+        font-size: $citation;
+        padding: 50px;
+    }
+</style>

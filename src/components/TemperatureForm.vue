@@ -1,7 +1,7 @@
 <template>
   <div id="v-model-select" class="demo">
+    <h4>Pick a temperature to filter</h4>
     <select v-model="temperature">
-      <option disabled value="">Pick a temperature to filter</option>
       <option v-for="temperature of options" :key="temperature.id" :value="temperature.value">
           {{temperature.value}} °C
       </option>
@@ -17,7 +17,7 @@ import {defineComponent, onUpdated, ref} from "vue";
 import { useStore } from '../store';
 
 export default defineComponent({
-  name: "CitiesForm",
+  name: "TemperatureForm",
   data() {
     return {
       options: [
@@ -40,7 +40,7 @@ export default defineComponent({
 })
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 
 .demo {
   font-family: sans-serif;
@@ -51,6 +51,7 @@ export default defineComponent({
   margin-bottom: 40px;
   user-select: none;
   overflow-x: auto;
+  width: 100%;
 }
 
 </style>

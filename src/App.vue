@@ -24,14 +24,14 @@ export default defineComponent({
         store.subscribe((mutation, state) => {
             localStorage.setItem('store', JSON.stringify(state));
         });
-        store.dispatch('loadWeatherAsync');
+        store.dispatch('reloadSelectedCities');
         store.dispatch('countDownAsync');
     })
   },
 });
 </script>
 
-<style>
+<style lang="scss">
 html, body {
   margin: 0;
   padding: 0;
@@ -51,28 +51,28 @@ html, body {
   justify-content: space-between;
   background-color: #262626;
   padding-right: 20px;
-}
 
-#app_header img {
-  height: 80px;
-  padding: 20px;
-}
+  img {
+    height: 80px;
+    padding: 20px;
+  }
 
-#app_header a {
-  color: white;
-  text-transform: uppercase;
-  padding: 20px;
-  text-decoration: none;
+  a {
+    color: white;
+    text-transform: uppercase;
+    padding: 20px;
+    text-decoration: none;
+  }
 }
 
 #map {
   width: 100%;
   height: 500px;
-}
 
-#map .marker {
-  width: 50px;
-  height: auto;
-  cursor: pointer;
+  .marker {
+    width: 50px;
+    height: auto;
+    cursor: pointer;
+  }
 }
 </style>

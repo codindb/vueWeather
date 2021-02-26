@@ -1,10 +1,10 @@
 <template>
     <div class="form">
-        <CitiesForm> </CitiesForm>
         <CitySelectionForm> </CitySelectionForm>
+        <TemperatureForm> </TemperatureForm>
     </div>
     <h4>next update in {{formatedCountDownInMinutesSeconds}}</h4>
-    <div>
+    <div class="list">
         <h1>Liste des villes ({{selectedCities.length}})</h1>
         <City v-for="city of selectedCities" :key="city.id" :name="city.name" :weather="city.weather[0].description" :temperature="parseInt((city.main.temp - 273.15),10)" :updated-at="city.dt*1000"></City>
         <!-- <h1>Liste des villes ({{loadedData.length}})</h1>
@@ -16,7 +16,7 @@
 <script lang="ts">
     import { defineComponent } from "vue";
     import City from "./City.vue";
-    import CitiesForm from "./CitiesForm.vue";
+    import TemperatureForm from "./TemperatureForm.vue";
     import CitySelectionForm from "./CitySelectionForm.vue";
     import { useStore } from '../store';
 
@@ -24,7 +24,7 @@
     name: 'CitiesList',
     components: {
       City,
-      CitiesForm,
+      TemperatureForm,
       CitySelectionForm,
     },
     computed: {
@@ -64,7 +64,7 @@
   })
 </script>
 
-<style scoped>
+<style scoped lang="scss">
   h1 {
     margin: 40px 0 0;
   }
@@ -74,5 +74,14 @@
   }
   input {
       margin-top: 30px;
+  }
+  .list{
+      margin-bottom: 30px;
+  }
+  .form {
+      position: absolute;
+      width: 20%;
+      padding-top: 10%;
+      padding-left: 50px;
   }
 </style>

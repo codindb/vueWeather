@@ -9,8 +9,11 @@
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       ></l-tile-layer>
 
-      <l-marker v-for="city in loadedData" :lat-lng="[city.lat, city.lon]" :key="city.name">
-        <l-icon :icon-url="`https://openweathermap.org/img/wn/${city.icon}.png`" :icon-size="iconSize" />
+      <l-marker v-for="city in loadedData" :lat-lng="[city.coord.lat, city.coord.lon]" :key="city.name">
+        <l-icon :icon-url="`https://openweathermap.org/img/wn/${city.weather[0].icon}.png`" :icon-size="iconSize" />
+		<l-tooltip >
+			{{city.name}} - {{(city.main.temp - 273.15).toFixed(2)}}°C
+		</l-tooltip>
       </l-marker>
     </l-map>
   </div>
@@ -23,6 +26,8 @@
     LTileLayer,
     LMarker,
     LIcon,
+	LTooltip,
+  LPopup,
   } from "@vue-leaflet/vue-leaflet";
   import "leaflet/dist/leaflet.css";
   import { defineComponent} from "vue";
@@ -36,15 +41,17 @@
       LTileLayer,
       LMarker,
       LIcon,
+	LTooltip,
+  LPopup,
     },
 	data() {
       return {
-        zoom: 12,
+        zoom: 6,
       }
     },
 	setup() {
         const store = useStore();
-        return {loadedData: store.state.weather}; 
+        return {loadedData: store.state.selectedCities}; 
     },
 	computed: {
       iconSize() {
@@ -63,7 +70,7 @@
   })
 </script>
 
-<style scoped>
+<style scoped lang="scss">
   h1 {
     margin: 40px 0 0;
   }

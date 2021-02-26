@@ -1,9 +1,13 @@
 <template>
   <div>
-    <h2>{{name}}</h2>
+      <div class="namePlusButton">
+        <h2>{{name}}</h2>
+        <button @click='handleClick'>Delete</button>
+      </div>
+    
     <p>Temps : {{weather}} - Température : {{temperature}}°C</p>
     <p><em>Dernière mise à jour : {{currentDateTime()}}</em></p>
-    <button @click='handleClick'>Delete</button>
+    
   </div>
 </template>
 
@@ -18,7 +22,7 @@
       name: String,
       weather: String,
       temperature: Number,
-      updatedAt: [String, Date],
+      updatedAt: [String, Date, Number],
     },
     setup(props) {
         const store = useStore();
@@ -43,8 +47,16 @@
   });
 </script>
 
-<style scoped>
+<style scoped lang="scss">
   h1 {
     margin: 40px 0 0;
+  }
+  .namePlusButton {
+      display: inline-flex;
+  }
+  button {
+      height: 30px;
+      margin-top: 20px;
+      margin-left: 20px;
   }
 </style>
