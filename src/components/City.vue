@@ -32,6 +32,7 @@
                 if (parsedCity.name === props.name) {
                     let index = cities.indexOf(city);
                     store.commit('deleteCity', index);
+                    store.commit('deleteCityName', parsedCity.name)
                 }
             });
         }

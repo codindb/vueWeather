@@ -59,8 +59,13 @@ export interface State {
         },
         deleteCity (state, payload) {
             state.selectedCities.splice(payload, 1);
-            state.selectedCitiesNames.splice(payload, 1);
-        }
+        },
+        deleteCityName (state, payload) {
+            const filteredArray = state.selectedCitiesNames.filter((value)=>{
+                return value !== payload;
+            })
+            state.selectedCitiesNames = filteredArray;
+        },
      },
     actions: {
         loadWeatherAsync ({commit, state}) {
