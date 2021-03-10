@@ -1,3 +1,5 @@
+[![Netlify Status](https://api.netlify.com/api/v1/badges/0d44952d-59ce-4476-9005-7bbc6180dea3/deploy-status)](https://app.netlify.com/sites/mycityweatherapp/deploys)
+
 ## Alternance - Projet Vue.js v3
 
 _En préambule, pensez à créer un fork de ce projet dans votre espace personnel sur Github. Clonez ensuite ce fork dans votre espace de travail local._
