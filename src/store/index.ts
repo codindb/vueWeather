@@ -70,7 +70,7 @@ export interface State {
     actions: {
         loadWeatherAsync ({commit, state}) {
             if(state.weather.length < 1 || state.countDown < 1 ) {
-                axios.get(`https://api.openweathermap.org/data/2.5/find?lat=${process.env.VUE_APP_DEFAULT_LATITUDE}&lon=${process.env.VUE_APP_DEFAULT_LONGITUDE}&cnt=20&cluster=yes&lang=fr&units=metric&APPID=${process.env.VUE_APP_OW_APP_ID}`)
+                axios.get(`https://api.openweathermap.org/data/2.5/find?lat=${process.env.VUE_APP_DEFAULT_LATITUDE}&lon=${process.env.VUE_APP_DEFAULT_LONGITUDE}&cnt=20&cluster=yes&lang=fr&units=metric&APPID=17d5511a9ba9b8bf4cb0afe6cac54a5b`)
                     .then( (resp) => {
                         commit('loadWeather', resp.data.list);
                         console.log("Data loaded from OWM API!");
@@ -105,7 +105,7 @@ export interface State {
                 });
         },
         loadCityAsync ({commit}, payload) {
-            axios.get(`https://api.openweathermap.org/data/2.5/weather?q=${payload}&appid=${process.env.VUE_APP_OW_APP_ID}`)
+            axios.get(`https://api.openweathermap.org/data/2.5/weather?q=${payload}&appid=17d5511a9ba9b8bf4cb0afe6cac54a5b`)
             .then( (resp) => {
                 commit('loadCity', resp)
             })
