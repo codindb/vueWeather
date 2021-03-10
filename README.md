@@ -1,3 +1,4 @@
+
 ## Alternance - Projet Vue.js v3
 
 _En préambule, pensez à créer un fork de ce projet dans votre espace personnel sur Github. Clonez ensuite ce fork dans votre espace de travail local._
